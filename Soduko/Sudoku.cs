@@ -110,7 +110,7 @@ namespace Soduko
             return true;
         }
         
-        public bool solve()
+        public bool Solve()
         {     
             if (this.UnfilldSquare() == null)
             {
@@ -125,7 +125,7 @@ namespace Soduko
                     if (this.IsValid(i, cordinate))
                     {
                         this.board[row, col] = i;
-                        if (solve())
+                        if (Solve())
                         {
                             return true;
                         }
