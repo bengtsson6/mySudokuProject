@@ -14,7 +14,6 @@ namespace Soduko
         {
             this.board = board;
         }
-
         public void PrintBoard()
         {
             int[,] board = this.board;
@@ -54,7 +53,6 @@ namespace Soduko
             }
             return null;
         }
-
         public bool IsValid(int value, int[] cordinate)
         {
             int[,] board = this.Board;
@@ -110,6 +108,33 @@ namespace Soduko
                 }
             }
             return true;
+        }
+        
+        public bool solve()
+        {     
+            if (this.UnfilldSquare() == null)
+            {
+                return true;
+            } else
+            {
+                int[] cordinate = this.UnfilldSquare();
+                int row = cordinate[0];
+                int col = cordinate[1];
+                for (int i = 1; i < 10; i++)
+                {
+                    if (this.IsValid(i, cordinate))
+                    {
+                        this.board[row, col] = i;
+                        if (solve())
+                        {
+                            return true;
+                        }
+                    }
+                    this.board[row, col] = 0;
+                }
+            }
+            return false;
+
         }
 
         public int[,] Board { get => board; set => board = value; }
