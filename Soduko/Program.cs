@@ -22,19 +22,23 @@ namespace Soduko
                                {0,0,0,0,0,0,0,0,0}};
 
             int[,] userEnterPuzzle = new int[10,10];
-            for(int i= 0; i < 10; i++)
+            for(int i= 0; i < 9; i++)
             {
                 int[] row = new int[9];
                 Console.WriteLine("Enter row " + i + " of the puzzle");
                 string input = Console.ReadLine();
-                int index = 0;
-                foreach(char c in input.ToCharArray())
+                while (input.Length != 9)
                 {
-                    
+                    Console.WriteLine("The row must contain 9 numbers");
+                    input = Console.ReadLine();
+                }
+                int index = 0;
+                foreach (char c in input.ToCharArray())
+                {
+
                     row.SetValue(int.Parse(c.ToString()), index);
                     index++;
                 }
-                //måste tydligen sätta in ett värde i taget kanske använda List<> och sen casta till array.
                 for (int j = 0; j < row.Length; j++)
                 {
                     userEnterPuzzle[i, j] = row[j];
@@ -46,7 +50,9 @@ namespace Soduko
             Console.WriteLine();
             sudoku.PrintBoard();
             sudoku.Solve();
+            Console.WriteLine(sudoku.NumberOfInputs);
             sudoku.PrintBoard();
+
           
 
 
