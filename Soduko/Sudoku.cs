@@ -9,6 +9,7 @@ namespace Soduko
     class Sudoku
     {
         private int[,] board;
+        private int numberOfInputs = 0;
 
         public Sudoku (int[,] board)
         {
@@ -110,7 +111,7 @@ namespace Soduko
             return true;
         }
         
-        public bool solve()
+        public bool Solve()
         {     
             if (this.UnfilldSquare() == null)
             {
@@ -125,7 +126,8 @@ namespace Soduko
                     if (this.IsValid(i, cordinate))
                     {
                         this.board[row, col] = i;
-                        if (solve())
+                        numberOfInputs += + 1;
+                        if (Solve())
                         {
                             return true;
                         }
@@ -138,5 +140,6 @@ namespace Soduko
         }
 
         public int[,] Board { get => board; set => board = value; }
+        public int NumberOfInputs { get => numberOfInputs; set => numberOfInputs = value; }
     }
 }

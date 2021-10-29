@@ -11,26 +11,51 @@ namespace Soduko
         static void Main(string[] args)
         {
           
-            int[,] puzzle =   {{6,0,0,4,1,0,9,0,0},
-                               {0,2,0,0,0,0,0,0,0},
-                               {0,9,3,8,6,0,0,1,0},
-                               {0,0,1,0,7,0,0,0,0},
-                               {7,5,0,0,0,0,0,8,4},
-                               {0,0,0,0,4,0,2,0,0},
-                               {0,1,0,0,8,4,3,2,0},
-                               {0,0,0,0,0,0,0,9,0}, 
-                               {0,0,4,0,3,1,0,0,6}};
+            int[,] puzzle =   {{0,0,0,0,0,0,0,0,0},
+                               {0,0,0,0,0,0,0,0,0},
+                               {0,0,0,0,0,0,0,0,0},
+                               {0,0,0,0,0,0,0,0,0},
+                               {0,0,0,0,0,0,0,0,0},
+                               {0,0,0,0,0,0,0,0,0},
+                               {0,0,0,0,0,0,0,0,0},
+                               {0,0,0,0,0,0,0,0,0}, 
+                               {0,0,0,0,0,0,0,0,0}};
 
-            Sudoku sudoku = new Sudoku(puzzle);
-            
+            int[,] userEnterPuzzle = new int[10,10];
+            for(int i= 0; i < 9; i++)
+            {
+                int[] row = new int[9];
+                Console.WriteLine("Enter row " + i + " of the puzzle");
+                string input = Console.ReadLine();
+                while (input.Length != 9)
+                {
+                    Console.WriteLine("The row must contain 9 numbers");
+                    input = Console.ReadLine();
+                }
+                int index = 0;
+                foreach (char c in input.ToCharArray())
+                {
+
+                    row.SetValue(int.Parse(c.ToString()), index);
+                    index++;
+                }
+                for (int j = 0; j < row.Length; j++)
+                {
+                    userEnterPuzzle[i, j] = row[j];
+                }
+            }
+
+            Sudoku sudoku = new Sudoku(userEnterPuzzle);
+
+            Console.WriteLine();
+            sudoku.PrintBoard();
+            sudoku.Solve();
+            Console.WriteLine(sudoku.NumberOfInputs);
             sudoku.PrintBoard();
 
-            Console.WriteLine(DateTime.Now);
-            sudoku.solve();
-            Console.WriteLine(DateTime.Now);
-            sudoku.PrintBoard();
-            
-            Console.ReadLine();
+          
+
+
         }
     }
 }
