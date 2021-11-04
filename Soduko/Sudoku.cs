@@ -4,13 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Soduko
 {
-    class Sudoku
+    public class Sudoku
     {
         private int[,] board;
+        private int[,] solvedBoard;
         private int numberOfInputs = 0;
 
+        public Sudoku()
+        {
+            int[,] board = {
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0}, 
+                               { 0,0,0,0,0,0,0,0,0} 
+            };
+            this.board = board;
+                    
+        }
         public Sudoku (int[,] board)
         {
             this.board = board;
@@ -27,6 +45,28 @@ namespace Soduko
                 for (int j = 0; j < 9; j++)
                 {
                     if(j % 3 == 0 && j != 0)
+                    {
+                        Console.Write("|");
+                    }
+                    Console.Write(board[i, j] + " ");
+                }
+                Console.WriteLine("");
+            }
+            Console.ReadLine();
+        }
+
+        public void PrintSolvedBoard()
+        {
+            int[,] board = this.solvedBoard;
+            for (int i = 0; i < 9; i++)
+            {
+                if (i % 3 == 0 && i != 0)
+                {
+                    Console.WriteLine("--------------------");
+                }
+                for (int j = 0; j < 9; j++)
+                {
+                    if (j % 3 == 0 && j != 0)
                     {
                         Console.Write("|");
                     }
@@ -112,7 +152,8 @@ namespace Soduko
         }
         
         public bool Solve()
-        {     
+        {
+            int[,] copyOfBoard = this.board;
             if (this.UnfilldSquare() == null)
             {
                 return true;
@@ -125,21 +166,64 @@ namespace Soduko
                 {
                     if (this.IsValid(i, cordinate))
                     {
-                        this.board[row, col] = i;
+                        board[row, col] = i;
                         numberOfInputs += + 1;
                         if (Solve())
                         {
+                            this.solvedBoard = board;
+                            this.board = copyOfBoard;
                             return true;
                         }
                     }
-                    this.board[row, col] = 0;
+                    board[row, col] = 0;
                 }
             }
             return false;
+        }
 
+        public void GeneratePuzzle(int numberOfInserts)
+        {
+            Random random = new Random();
+            int[,] testBoard;
+            do
+            {
+                ClearPuzzle();
+                testBoard = new int[9, 9];
+                for (int i = 0; i < numberOfInserts; i++)
+                {
+                    int x = random.Next(0, 9);
+                    int y = random.Next(0, 9);
+                    int[] cordinate = { x, y };
+                    int tryInput = random.Next(1, 10);
+
+                    if (IsValid(tryInput, cordinate))
+                    {
+                        testBoard[x, y] = tryInput;
+                        board[x, y] = tryInput;
+                    }
+                }
+            } while (!Solve());
+            this.board = testBoard;
+        }
+
+        public void ClearPuzzle()
+        {
+            int[,] clearBoard = {
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0},
+                               { 0,0,0,0,0,0,0,0,0}
+            };
+            this.board = clearBoard;
         }
 
         public int[,] Board { get => board; set => board = value; }
         public int NumberOfInputs { get => numberOfInputs; set => numberOfInputs = value; }
+        public int[,] SolvedBoard { get => solvedBoard; set => solvedBoard = value; }
     }
 }

@@ -51,7 +51,7 @@ namespace Soduko
             sudoku.PrintBoard();
             sudoku.Solve();
             Console.WriteLine(sudoku.NumberOfInputs);
-            sudoku.PrintBoard();
+            sudoku.PrintSolvedBoard();
 
           
 
