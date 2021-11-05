@@ -13,6 +13,7 @@ namespace Soduko
         private int[,] solvedBoard;
         private int numberOfInputs = 0;
 
+        //Ctor that gives an empty suduko
         public Sudoku()
         {
             int[,] board = {
@@ -29,6 +30,7 @@ namespace Soduko
             this.board = board;
                     
         }
+        //Ctor that gets a given puzzle in the form of 2d array
         public Sudoku (int[,] board)
         {
             this.board = board;
@@ -181,29 +183,35 @@ namespace Soduko
             return false;
         }
 
+        //Generates a random puzzle where the paramenter decides how many inputs that will be given
+        //In the process a sulution to the puzzle is also generated
+        //and stored in the "solvedPuzzle" instance variable
         public void GeneratePuzzle(int numberOfInserts)
         {
             Random random = new Random();
             int[,] testBoard;
+            int[] cordinate = new int[2];
+            int[][] usedCordinates = new int[numberOfInserts][];
+
             do
             {
                 ClearPuzzle();
                 testBoard = new int[9, 9];
+
                 for (int i = 0; i < numberOfInserts; i++)
                 {
-                    int x = random.Next(0, 9);
-                    int y = random.Next(0, 9);
-                    int[] cordinate = { x, y };
+                    cordinate[0] = random.Next(0, 9);
+                    cordinate[1] = random.Next(0, 9);
                     int tryInput = random.Next(1, 10);
-
                     if (IsValid(tryInput, cordinate))
                     {
-                        testBoard[x, y] = tryInput;
-                        board[x, y] = tryInput;
+                        testBoard[cordinate[0], cordinate[1]] = tryInput;
+                        board[cordinate[0], cordinate[1]] = tryInput;
+                        usedCordinates.Append(cordinate);
                     }
                 }
             } while (!Solve());
-            this.board = testBoard;
+                this.board = testBoard;           
         }
 
         public void ClearPuzzle()
