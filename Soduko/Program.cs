@@ -52,10 +52,6 @@ namespace Soduko
             sudoku.Solve();
             Console.WriteLine(sudoku.NumberOfInputs);
             sudoku.PrintSolvedBoard();
-
-          
-
-
         }
     }
 }
